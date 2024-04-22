@@ -8,7 +8,7 @@ import { oidcConfig } from './oidcConfig';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
       <AuthProvider {...oidcConfig}>
-          <BrowserRouter>
+          <BrowserRouter basename="/SaveUrlToDropbox/">
               <Routes>
                   <Route path="/" element={<App/>} />
               </Routes>

@@ -4,7 +4,7 @@ import { WebStorageStateStore } from "oidc-client-ts";
 export const oidcConfig: AuthProviderProps = {
     authority: "https://www.dropbox.com/",
     client_id: "r6vsy2r0ukqeq0i",
-    redirect_uri: "http://localhost:5173",
+    redirect_uri: "https://trulyshelton.github.io/SaveUrlToDropbox/",
     scope: "openid email files.content.write",
     automaticSilentRenew: true,
     onSigninCallback: () => {
