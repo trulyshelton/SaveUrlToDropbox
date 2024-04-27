@@ -118,7 +118,6 @@ const MainForm = ({ tasks, setTasks }: MainFormProps) => {
 const MainGrid = ({ tasks, setTasks } : MainFormProps) => {
     const { isAuthenticated } = useAuth();
     const { checkJobStatus } = useDropboxApi();
-    const [selectionModel, setSelectionModel] = useState<GridRowId[]>([]);
 
     const handleDeleteClick = (id: GridRowId) => () => {
         const updatedTasks = { ...tasks };
@@ -131,9 +130,7 @@ const MainGrid = ({ tasks, setTasks } : MainFormProps) => {
             Object.entries(tasks).map(async ([id, task]) => {
                 if ([JobStatusEnum.Added, JobStatusEnum.InProgress].includes(task.status!)) {
                     const status = await checkJobStatus(id);
-                    if ([JobStatusEnum.Complete, JobStatusEnum.Failed].includes(status.status)) {
-                        return { id, status };
-                    }
+                    return { id, status };
                 }
                 return null;
             })
@@ -149,7 +146,7 @@ const MainGrid = ({ tasks, setTasks } : MainFormProps) => {
 
     useEffect(() => {
         if (!isAuthenticated) return;
-
+        updateTasks();
         const interval = setInterval(updateTasks, 4000);
         return () => clearInterval(interval);
     }, [isAuthenticated, updateTasks]);
@@ -185,10 +182,7 @@ const MainGrid = ({ tasks, setTasks } : MainFormProps) => {
                 ]}
                 pageSizeOptions={[5, 10]}
                 initialState={{pagination: { paginationModel: { pageSize: 5 } },}}
-                onRowSelectionModelChange={(newSelectionModel) => {
-                    setSelectionModel(newSelectionModel);
-                }}
-                rowSelectionModel={selectionModel}
+                onPaginationModelChange={console.log} // TODO: optimize status query for pagination
             />
         </>
     );
